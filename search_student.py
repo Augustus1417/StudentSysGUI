@@ -4,9 +4,7 @@ class SearchStudent:
 
     def search_student(self, id_number):
         for student in self.student_data.allstudents:
-            if id_number == "": print("\nYou did not type an ID.\n") ; return False
+            if id_number == "": return("\nYou did not type an ID.\n")
             if student.idnum == id_number:
-                print("\n======== Student Information ========\n")
-                print(student)
-                print("\n========== Nothing Follows ==========\n") ; return
-        print(f"\nThe Student with the ID number {id_number} does not exist\n") ; return
+                return(student)
+        return(f"\nThe Student with the ID number {id_number} does not exist\n")

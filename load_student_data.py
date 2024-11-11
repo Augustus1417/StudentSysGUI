@@ -5,7 +5,7 @@ class Load_Student_Data:
     def __init__(self, student):
         start = default_timer()
         self.student_data = student
-        with open("data.txt", 'r') as studentfile:
+        with open("StudentInfoSys-main/data.txt", 'r') as studentfile:
             for student_data in studentfile:
                 load_student = StudentInfo()
                 student_data = student_data.rstrip('\n')
