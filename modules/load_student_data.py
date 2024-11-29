@@ -1,11 +1,9 @@
-from student import StudentInfo
+from modules.student import StudentInfo
 from timeit import default_timer
 
 class Load_Student_Data:
     def __init__(self, student):
-        start = default_timer()
-        self.student_data = student
-        with open("data.txt", 'r') as studentfile:
+        with open("modules/data.txt", 'r') as studentfile:
             for student_data in studentfile:
                 load_student = StudentInfo()
                 student_data = student_data.rstrip('\n')

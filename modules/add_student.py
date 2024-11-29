@@ -4,7 +4,7 @@ class AddStudent:
 
     def add_student(self, student):
         self.student_data.allstudents.append(student)
-        with open("data.txt",'a') as f:
+        with open("modules/data.txt",'a') as f:
             f.write(str(f"{student.getName()},{student.getAge()},{student.getIDNum()},{student.getEmail()},{student.getPhoneNum()}\n"))
         print(f"\nAdded student {student.getName()} to the list.\n")
 
