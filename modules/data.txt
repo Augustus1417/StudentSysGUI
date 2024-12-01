@@ -1,7 +1,1 @@
-Admin Jed,19,123,jed@email.com,123456789
-Tim Fetesio,20,321,tim@email.com,987654231
-JC Goot,20,456,goot@gmail.com,91259532
-J Fajarillo,20,654,j@gmail.com,094536723
-Nathaniel Camacho,19,789,nat@email.com,0998123756
-Don Catli,35,987,doncatli@gmail.com,942367143
-Mark Cadiz,19,12345,mark@email.com,412386634
+123,123,123,123,132
