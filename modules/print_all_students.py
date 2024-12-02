@@ -5,6 +5,5 @@ class Print_All_Students:
     def print_all_students(self):
         print("\n======= All Student Information =======")
         for student in self.student_data.allstudents:
-            print()
-            print(student)
+            return (student)
         print("\n=========== Nothing Follows ===========\n")
