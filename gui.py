@@ -10,6 +10,9 @@ Login = login.Login(student_info)
 
 def hide_other_frames():
     search_student_frame.place_forget()
+    output_frame.place_forget()
+    add_student_frame.place_forget()
+
 # button commands
 def login_func():
     global message, login_status, user_id
@@ -30,15 +33,30 @@ def view_my_info():
     output_label.config(text=searchstud.search_student(user_id))
 
 def search_student_menu():
-    output_frame.place_forget()
+    hide_other_frames()
     search_student_frame.place(relx=0.5,rely=0.5, anchor="center")
 
 def search_for_student():
     search_output.config(text=searchstud.search_student(search_entry.get()))
 
-def add_student(): print("add")
+def add_student():
+    hide_other_frames()
+    add_student_frame.place(relx=0.5,rely=0.5, anchor="center")
+
+def register_student():
+    new_student = student.StudentInfo()
+    name = name_entry.get()
+    age = age_entry.get()
+    id_num = id_entry.get()
+    email = email_entry.get()
+    phone = phone_entry.get()
+    add_label.config(text=addstud.registration(new_student, name,age,id_num,email,phone))
+
 def view_all_students():
+    hide_other_frames()
+    output_frame.place(relx=0.5, rely=0.5, anchor="center") 
     output_label.config(text=printstud.print_all_students())
+
 def logout():
     menu_frame.pack_forget()
     content_frame.pack_forget()
@@ -79,6 +97,31 @@ Button(search_student_frame,text="Search", font=("Arial","17"), command=search_f
 search_output = Label(search_student_frame,text="", font=("Arial","17"))
 search_output.pack()
 
+# add student frame
+add_student_frame = Frame(content_frame,borderwidth=1, bg="#171924")
+Label(add_student_frame,text="Name: ").pack()
+name_entry = Entry(add_student_frame,width=10)
+name_entry.pack()
+
+Label(add_student_frame,text="Age: ").pack()
+age_entry = Entry(add_student_frame,width=10)
+age_entry.pack()
+
+Label(add_student_frame,text="ID Number: ").pack()
+id_entry = Entry(add_student_frame,width=10)
+id_entry.pack()
+
+Label(add_student_frame,text="Email: ").pack()
+email_entry = Entry(add_student_frame,width=10)
+email_entry.pack()
+
+Label(add_student_frame,text="Phone No.: ").pack()
+phone_entry = Entry(add_student_frame,width=10)
+phone_entry.pack()
+
+Button(add_student_frame,text="Register", command=register_student).pack()
+add_label =Label(add_student_frame,text="")
+add_label.pack()
 # options
 menu_options = {"View My Info": view_my_info,"Search For Student": search_student_menu,
                 "Add Student": add_student, "View All Students": view_all_students, "Logout":logout}

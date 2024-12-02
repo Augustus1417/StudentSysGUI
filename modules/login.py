@@ -1,4 +1,3 @@
-import os
 class Login:
     def __init__(self, student):
         self.student_data = student
