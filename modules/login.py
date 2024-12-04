@@ -6,5 +6,5 @@ class Login:
         if id_number == "": return "You did not type an ID.", False
         for student in self.student_data.allstudents:
             if student.idnum == id_number: 
-                return f"Welcome, {student.name}!", True
+                return student.name, True
         return f"The Student with the ID number {id_number} does not exist", False
