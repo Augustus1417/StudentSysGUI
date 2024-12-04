@@ -1,7 +1,22 @@
+from timeit import default_timer
 class StudentInfo:
     def __init__(self):
         self.allstudents = []
     
+    def load_data_from_file(self):
+        start = default_timer()
+        with open("modules/data.txt", 'r') as studentfile:
+            for student_data in studentfile:
+                load_student = StudentInfo()
+                student_data = student_data.strip().split(',')
+                load_student.setName(student_data[0])
+                load_student.setAge(student_data[1])
+                load_student.setIDNum(student_data[2])
+                load_student.setEmail(student_data[3])
+                load_student.setPhoneNum(student_data[4])
+                self.allstudents.append(load_student)
+        print(f"\nStudent data has been loaded. Finished in {(default_timer() - start):6f} seconds.")
+
     def setName(self, name):
         self.name = name
     
