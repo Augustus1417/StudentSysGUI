@@ -54,15 +54,39 @@ class Login_Page:
         self.msg_lbl.destroy()
 
 class Menu_Page:
+    def __init__(self):
+        self.active_page = ""
+
     def view_info(self):
-        self.welcome_label.config(text=searchstud.search_student(login_page.user_id))
-    def search_student_page(self): pass
-    def add_student_page(self): pass
-    def print_all(self): pass
+        self.hide_active_page()
+        self.active_page = "view_info"
+        view_info_page.view_page()
+
+    def search_student_page(self): 
+        self.hide_active_page()
+        self.active_page = "search_student_page"
+        search_page.view_page()
+
+    def add_student_page(self): 
+        self.hide_active_page()
+        self.active_page = "add_student_page"
+        add_student_page.view_page()
+
+    def print_all(self):
+        self.hide_active_page()
+        self.active_page = "print_all"
+
     def logout(self):
+        self.active_page = ""
         self.destroy_page()
         login_page.view_page()
     
+    def hide_active_page(self):
+        if self.welcome_container: self.welcome_container.destroy()
+        if self.active_page == "view_info": view_info_page.destroy_page()
+        elif self.active_page == "search_student_page": search_page.destroy_page()
+        elif self.active_page == "add_student_page": add_student_page.destroy_page()
+
     def view_page(self):
         self.menu_frame = Frame(win, borderwidth=1,bg="#2c3646")
         self.content_frame = Frame(win, bg="#323e50", padx=20, pady=20)
@@ -82,22 +106,93 @@ class Menu_Page:
     def destroy_page(self):
         self.menu_frame.destroy()
         self.content_frame.destroy()
-        self.welcome_container.destroy()
-        self.welcome_label.destroy()
 
 class View_Info_Page:
     def view_page(self):
-        pass
+        self.info_container = Frame(menu_page.content_frame, bg="#d4d4d4", padx=30,pady=40)
+        self.info_container.place(relx=.5,rely=.5, anchor=CENTER)
+        Label(self.info_container,text="Your Information:", font=("Cascadia Code", "17"), bg="#d4d4d4").pack(pady=(0,10))
+        Label(self.info_container,text=searchstud.search_student(login_page.user_id), font=("Cascadia Code", "15"), bg="#d4d4d4", anchor="e", justify=LEFT).pack()
+
+    def destroy_page(self): self.info_container.place_forget()
 
 class Search_Page:
+    def search(self): self.search_output.config(text=searchstud.search_student(self.search_entry.get()))
     def view_page(self):
-        pass
+        self.search_container = Frame(menu_page.content_frame, bg="#d4d4d4", padx=30,pady=40)
+        self.search_container.place(relx=.5,rely=.5, anchor=CENTER)
+        Label(self.search_container,text="Search Student:", font=("Cascadia Code", "17"), bg="#d4d4d4").grid(row=0, column=0)
+        Label(self.search_container,text="Enter ID:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=1, column=0)
+        self.search_entry = Entry(self.search_container, width=14, font=("Cascadia Code", "14"), relief=FLAT)
+        self.search_entry.grid(row=1,column=1)
+        self.search_btn = Button(self.search_container, text="Search", command=self.search, bg="#4f627e", fg="white", font=("Cascadia Code", "13"), relief=FLAT)
+        self.search_btn.grid(row=1,column=2, padx=(20,0))
+        self.output_frame = Frame(self.search_container, bg="#d4d4d4")
+        self.output_frame.grid(row=2, column=0, columnspan=3, pady=(20, 0))
+        Label(self.output_frame, text="Result:", font=("Cascadia Code", 15), bg="#d4d4d4",anchor="w", justify=LEFT).pack()
+        self.search_output = Label(self.output_frame, text="", font=("Cascadia Code", 14), bg="#d4d4d4", anchor="w", justify=LEFT)
+        self.search_output.pack(fill="x")
 
-    def destroy_page(self):
-        pass
+    def destroy_page(self): self.search_container.destroy()
+
+class Add_Student_Page:
+    def add_new_student(self):
+        errors = []
+        if self.name_entry.get() == "": errors.append("- Name cannot be empty\n")
+        if self.age_entry.get() == "": errors.append("- Age cannot be empty\n")
+        if self.id_num_entry.get() == "": errors.append("- ID cannot be empty\n")
+        if self.email_entry.get() == "": errors.append("- Email cannot be empty\n")
+        if self.phone_entry.get() == "": errors.append("- Phone No. cannot be empty")
+
+        if not errors: 
+            self.output_lbl.config(text=addstud.registration(self.name_entry.get(), self.age_entry.get(), self.id_num_entry.get(), self.email_entry.get(), self.phone_entry.get()), fg="black")
+            self.name_entry.delete(0,'end')
+            self.age_entry.delete(0,'end')
+            self.id_num_entry.delete(0,'end')
+            self.email_entry.delete(0,'end')
+            self.phone_entry.delete(0,'end')
+        else: self.output_lbl.config(text=f"Warning!\n{''.join(errors)}", fg="red")
+    def view_page(self):
+        self.add_container = Frame(menu_page.content_frame, bg="#d4d4d4", padx=30,pady=40)
+        self.add_container.place(relx=.5,rely=.5, anchor=CENTER)
+        Label(self.add_container,text="Add New Student:", font=("Cascadia Code", "17"), bg="#d4d4d4").grid(row=0, column=0)
+
+        Label(self.add_container,text="Name:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=1, column=0)
+        self.name_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
+        self.name_entry.grid(row=1,column=1)
+
+        Label(self.add_container,text="Age:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=2, column=0)
+        self.age_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
+        self.age_entry.grid(row=2,column=1)
+
+        Label(self.add_container,text="ID Number:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=3, column=0)
+        self.id_num_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
+        self.id_num_entry.grid(row=3,column=1)
+    
+        Label(self.add_container,text="Email:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=4, column=0)
+        self.email_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
+        self.email_entry.grid(row=4,column=1)
+
+        Label(self.add_container,text="Phone No.:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=5, column=0)
+        self.phone_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
+        self.phone_entry.grid(row=5,column=1)
+
+        self.add_btn = Button(self.add_container, text="Register", command=self.add_new_student, bg="#4f627e", fg="white", font=("Cascadia Code", "13"), relief=FLAT)
+        self.add_btn.grid(row=6,column=0, pady=(10,0))
+
+        self.output_frame = Frame(self.add_container, bg="#d4d4d4")
+        self.output_frame.grid(row=7, column=0, columnspan=3, pady=(20, 0))
+        Label(self.output_frame, text="Result:", font=("Cascadia Code", 15), bg="#d4d4d4",anchor="w", justify=LEFT).pack()
+        self.output_lbl = Label(self.output_frame, text="", font=("Cascadia Code", 14), bg="#d4d4d4", anchor="w", justify=LEFT)
+        self.output_lbl.pack(fill="x")
+
+    def destroy_page(self): self.add_container.destroy()
 
 login_page = Login_Page()
 login_page.view_page()
 menu_page = Menu_Page()
+view_info_page = View_Info_Page()
+search_page = Search_Page()
+add_student_page = Add_Student_Page()
 
 win.mainloop()
