@@ -1,5 +1,5 @@
 from tkinter import *
-import tkinter.scrolledtext as st
+from tkinter.scrolledtext import *
 import modules.student as student,modules.add_student as add_student, modules.search_student as search_student, modules.print_all_students as print_all_students, modules.login as login
 
 student_info = student.StudentInfo()
@@ -150,6 +150,7 @@ class Add_Student_Page:
             self.email_entry.delete(0,'end')
             self.phone_entry.delete(0,'end')
         else: self.output_lbl.config(text=f"Warning!\n{''.join(errors)}", fg="red")
+
     def view_page(self):
         self.add_container = Frame(menu_page.content_frame, bg="#d4d4d4", padx=30,pady=40)
         self.add_container.place(relx=.5,rely=.5, anchor=CENTER)
@@ -175,8 +176,7 @@ class Add_Student_Page:
         self.phone_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
         self.phone_entry.grid(row=5,column=1)
 
-        self.add_btn = Button(self.add_container, text="Register", command=self.add_new_student, bg="#4f627e", fg="white", font=("Cascadia Code", "13"), relief=FLAT)
-        self.add_btn.grid(row=6,column=0, pady=(10,0))
+        Button(self.add_container, text="Register", command=self.add_new_student, bg="#4f627e", fg="white", font=("Cascadia Code", "13"), relief=FLAT).grid(row=6,column=0, pady=(10,0))
 
         self.output_frame = Frame(self.add_container, bg="#d4d4d4")
         self.output_frame.grid(row=7, column=0, columnspan=3, pady=(20, 0))
@@ -191,7 +191,7 @@ class Print_All_Page:
         self.all_students_container = Frame(menu_page.content_frame, bg="#d4d4d4", padx=30,pady=40)
         self.all_students_container.place(relx=.5,rely=.5, anchor=CENTER)
         Label(self.all_students_container,text="All Students:", font=("Cascadia Code", "17"), bg="#d4d4d4").pack(pady=(0,20))
-        self.output_area = st.ScrolledText(self.all_students_container,font=("Cascadia Code", "14"), bg="#d4d4d4", width=50, height=10)
+        self.output_area = ScrolledText(self.all_students_container,font=("Cascadia Code", "14"), bg="#d4d4d4", width=40, height=10)
         self.output_area.insert(INSERT, printstud.print_all_students())
         self.output_area.config(state=DISABLED)
         self.output_area.pack()
