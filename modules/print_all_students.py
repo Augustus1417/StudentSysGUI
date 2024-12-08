@@ -3,5 +3,5 @@ class Print_All_Students:
         self.student_data = student
 
     def print_all_students(self):
-        for student in self.student_data.allstudents:
-            return (student)
+        students = [str(student) for student in self.student_data.allstudents]
+        return '\n\n'.join(students)

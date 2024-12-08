@@ -1,4 +1,5 @@
 from tkinter import *
+import tkinter.scrolledtext as st
 import modules.student as student,modules.add_student as add_student, modules.search_student as search_student, modules.print_all_students as print_all_students, modules.login as login
 
 student_info = student.StudentInfo()
@@ -48,14 +49,9 @@ class Login_Page:
     def destroy_page(self):
         self.login_frame.destroy()
         self.login_container.destroy()
-        self.login_label.destroy()
-        self.id_entry.destroy()
-        self.login_btn.destroy()
-        self.msg_lbl.destroy()
 
 class Menu_Page:
-    def __init__(self):
-        self.active_page = ""
+    def __init__(self): self.active_page = ""
 
     def view_info(self):
         self.hide_active_page()
@@ -75,6 +71,7 @@ class Menu_Page:
     def print_all(self):
         self.hide_active_page()
         self.active_page = "print_all"
+        print_all_page.view_page()
 
     def logout(self):
         self.active_page = ""
@@ -86,6 +83,7 @@ class Menu_Page:
         if self.active_page == "view_info": view_info_page.destroy_page()
         elif self.active_page == "search_student_page": search_page.destroy_page()
         elif self.active_page == "add_student_page": add_student_page.destroy_page()
+        elif self.active_page == "print_all": print_all_page.destroy_page()
 
     def view_page(self):
         self.menu_frame = Frame(win, borderwidth=1,bg="#2c3646")
@@ -188,11 +186,24 @@ class Add_Student_Page:
 
     def destroy_page(self): self.add_container.destroy()
 
+class Print_All_Page:
+    def view_page(self):
+        self.all_students_container = Frame(menu_page.content_frame, bg="#d4d4d4", padx=30,pady=40)
+        self.all_students_container.place(relx=.5,rely=.5, anchor=CENTER)
+        Label(self.all_students_container,text="All Students:", font=("Cascadia Code", "17"), bg="#d4d4d4").pack(pady=(0,20))
+        self.output_area = st.ScrolledText(self.all_students_container,font=("Cascadia Code", "14"), bg="#d4d4d4", width=50, height=10)
+        self.output_area.insert(INSERT, printstud.print_all_students())
+        self.output_area.config(state=DISABLED)
+        self.output_area.pack()
+    
+    def destroy_page(self): self.all_students_container.destroy()
+
 login_page = Login_Page()
 login_page.view_page()
 menu_page = Menu_Page()
 view_info_page = View_Info_Page()
 search_page = Search_Page()
 add_student_page = Add_Student_Page()
+print_all_page = Print_All_Page()
 
 win.mainloop()
