@@ -10,7 +10,7 @@ printstud = print_all_students.Print_All_Students(student_info)
 loginstud = login.Login(student_info)
 
 win = Tk()
-win.title("Student Info Sytem")
+win.title("Student Info System")
 win.geometry(f"1000x600+{(win.winfo_screenwidth()-1000)//2}+{(win.winfo_screenheight()-600)//2}")
 
 class Login_Page:
@@ -96,8 +96,7 @@ class Menu_Page:
         self.content_frame.pack(fill="both",expand=True)
         self.welcome_container.place(relx=.5,rely=.5, anchor=CENTER)
         self.welcome_label.pack()
-        self.menu_options = {"View Info":self.view_info, "Search Student":self.search_student_page, "Add Student":self.add_student_page,
-                            "Print All Students":self.print_all, "Logout": self.logout}
+        self.menu_options = {"View Info":self.view_info, "Search Student":self.search_student_page, "Add Student":self.add_student_page, "Print All Students":self.print_all, "Logout": self.logout}
         for option, command in self.menu_options.items():
             Button(self.menu_frame, text=option, command=command, width=20, font=("Cascadia Code", "14"), fg="white", bg="#4f627e",relief=FLAT).pack(fill="x", pady=1)
 
@@ -136,19 +135,15 @@ class Search_Page:
 class Add_Student_Page:
     def add_new_student(self):
         errors = []
-        if self.name_entry.get() == "": errors.append("- Name cannot be empty\n")
-        if self.age_entry.get() == "": errors.append("- Age cannot be empty\n")
-        if self.id_num_entry.get() == "": errors.append("- ID cannot be empty\n")
-        if self.email_entry.get() == "": errors.append("- Email cannot be empty\n")
-        if self.phone_entry.get() == "": errors.append("- Phone No. cannot be empty")
+        if self.entries[0].get() == "": errors.append("- Name cannot be empty\n")
+        if self.entries[1].get() == "": errors.append("- Age cannot be empty\n")
+        if self.entries[2].get() == "": errors.append("- ID cannot be empty\n")
+        if self.entries[3].get() == "": errors.append("- Email cannot be empty\n")
+        if self.entries[4].get() == "": errors.append("- Phone No. cannot be empty")
 
         if not errors: 
-            self.output_lbl.config(text=addstud.registration(self.name_entry.get(), self.age_entry.get(), self.id_num_entry.get(), self.email_entry.get(), self.phone_entry.get()), fg="black")
-            self.name_entry.delete(0,'end')
-            self.age_entry.delete(0,'end')
-            self.id_num_entry.delete(0,'end')
-            self.email_entry.delete(0,'end')
-            self.phone_entry.delete(0,'end')
+            self.output_lbl.config(text=addstud.registration(self.entries[0].get(), self.entries[1].get(), self.entries[2].get(), self.entries[3].get(), self.entries[4].get()), fg="black")
+            for entry in self.entries: entry.delete(0,'end')
         else: self.output_lbl.config(text=f"Warning!\n{''.join(errors)}", fg="red")
 
     def view_page(self):
@@ -156,25 +151,13 @@ class Add_Student_Page:
         self.add_container.place(relx=.5,rely=.5, anchor=CENTER)
         Label(self.add_container,text="Add New Student:", font=("Cascadia Code", "17"), bg="#d4d4d4").grid(row=0, column=0)
 
-        Label(self.add_container,text="Name:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=1, column=0)
-        self.name_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
-        self.name_entry.grid(row=1,column=1)
-
-        Label(self.add_container,text="Age:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=2, column=0)
-        self.age_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
-        self.age_entry.grid(row=2,column=1)
-
-        Label(self.add_container,text="ID Number:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=3, column=0)
-        self.id_num_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
-        self.id_num_entry.grid(row=3,column=1)
-    
-        Label(self.add_container,text="Email:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=4, column=0)
-        self.email_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
-        self.email_entry.grid(row=4,column=1)
-
-        Label(self.add_container,text="Phone No.:", font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=5, column=0)
-        self.phone_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
-        self.phone_entry.grid(row=5,column=1)
+        labels = ["Name:", "Age:", "ID Number:", "Email:", "Phone No.:"]
+        self.entries = []
+        for i in range(len(labels)):
+            Label(self.add_container,text=labels[i], font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=i+1, column=0)
+            new_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
+            new_entry.grid(row=i+1,column=1)
+            self.entries.append(new_entry)
 
         Button(self.add_container, text="Register", command=self.add_new_student, bg="#4f627e", fg="white", font=("Cascadia Code", "13"), relief=FLAT).grid(row=6,column=0, pady=(10,0))
 
