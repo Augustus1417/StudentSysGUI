@@ -124,11 +124,9 @@ class Search_Page:
         self.search_entry.grid(row=1,column=1)
         self.search_btn = Button(self.search_container, text="Search", command=self.search, bg="#4f627e", fg="white", font=("Cascadia Code", "13"), relief=FLAT)
         self.search_btn.grid(row=1,column=2, padx=(20,0))
-        self.output_frame = Frame(self.search_container, bg="#d4d4d4")
-        self.output_frame.grid(row=2, column=0, columnspan=3, pady=(20, 0))
-        Label(self.output_frame, text="Result:", font=("Cascadia Code", 15), bg="#d4d4d4",anchor="w", justify=LEFT).pack()
-        self.search_output = Label(self.output_frame, text="", font=("Cascadia Code", 14), bg="#d4d4d4", anchor="w", justify=LEFT)
-        self.search_output.pack(fill="x")
+        Label(self.search_container, text="Result:", font=("Cascadia Code", 15), bg="#d4d4d4",anchor="w", justify=LEFT).grid(row=2, column=0, columnspan=3, pady=(20, 0))
+        self.search_output = Label(self.search_container, text="", font=("Cascadia Code", 14), bg="#d4d4d4", anchor="w", justify=LEFT)
+        self.search_output.grid(row=3, column=0, columnspan=3)
 
     def destroy_page(self): self.search_container.destroy()
 
@@ -149,23 +147,20 @@ class Add_Student_Page:
     def view_page(self):
         self.add_container = Frame(menu_page.content_frame, bg="#d4d4d4", padx=30,pady=40)
         self.add_container.place(relx=.5,rely=.5, anchor=CENTER)
-        Label(self.add_container,text="Add New Student:", font=("Cascadia Code", "17"), bg="#d4d4d4").grid(row=0, column=0)
+        Label(self.add_container,text="Add New Student:", font=("Cascadia Code", "17"), bg="#d4d4d4").grid(row=0, column=0, columnspan=2, pady=(0,20))
 
         labels = ["Name:", "Age:", "ID Number:", "Email:", "Phone No.:"]
         self.entries = []
         for i in range(len(labels)):
-            Label(self.add_container,text=labels[i], font=("Cascadia Code", "15"), bg="#d4d4d4").grid(row=i+1, column=0)
+            Label(self.add_container,text=labels[i], font=("Cascadia Code", "15"), bg="#d4d4d4", justify=RIGHT).grid(sticky=E,row=i+1, column=0)
             new_entry = Entry(self.add_container, width=18, font=("Cascadia Code", "14"), relief=FLAT)
             new_entry.grid(row=i+1,column=1)
             self.entries.append(new_entry)
 
-        Button(self.add_container, text="Register", command=self.add_new_student, bg="#4f627e", fg="white", font=("Cascadia Code", "13"), relief=FLAT).grid(row=6,column=0, pady=(10,0))
-
-        self.output_frame = Frame(self.add_container, bg="#d4d4d4")
-        self.output_frame.grid(row=7, column=0, columnspan=3, pady=(20, 0))
-        Label(self.output_frame, text="Result:", font=("Cascadia Code", 15), bg="#d4d4d4",anchor="w", justify=LEFT).pack()
-        self.output_lbl = Label(self.output_frame, text="", font=("Cascadia Code", 14), bg="#d4d4d4", anchor="w", justify=LEFT)
-        self.output_lbl.pack(fill="x")
+        Button(self.add_container, text="Register", command=self.add_new_student, bg="#4f627e", fg="white", font=("Cascadia Code", "13"), relief=FLAT).grid(row=6,column=0, columnspan=2,pady=(15,0))
+        Label(self.add_container, text="Result:", font=("Cascadia Code", 15), bg="#d4d4d4",anchor="w", justify=LEFT).grid(row=7, column=0, columnspan=2)
+        self.output_lbl = Label(self.add_container, text="", font=("Cascadia Code", 14), bg="#d4d4d4", anchor="w", justify=LEFT)
+        self.output_lbl.grid(row=8, column=0, columnspan=2)
 
     def destroy_page(self): self.add_container.destroy()
 
